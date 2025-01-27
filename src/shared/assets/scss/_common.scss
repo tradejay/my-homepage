@@ -1,0 +1,38 @@
+// Container
+.container {
+    @include container;
+}
+
+// Section
+.section {
+    padding: 120px 0;
+    
+    @include tablet {
+        padding: 80px 0;
+    }
+    
+    @include mobile {
+        padding: 40px 0;
+    }
+}
+
+// Button
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+// Text styles
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+} 

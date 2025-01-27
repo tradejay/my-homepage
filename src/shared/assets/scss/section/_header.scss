@@ -1,0 +1,211 @@
+@import '../@setting/setting';
+
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--black);
+    border-bottom: 1px solid var(--black100);
+
+    // 상단 바 (햄버거 메뉴와 SNS 링크)
+    .top-bar {
+        background-color: var(--black);
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--black100);
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        // .hamburger {
+        //     width: 24px;
+        //     height: 20px;
+        //     position: relative;
+        //     cursor: pointer;
+
+        //     span {
+        //         display: block;
+        //         width: 100%;
+        //         height: 2px;
+        //         background-color: var(--white);
+        //         position: absolute;
+        //         transition: all 0.3s;
+
+        //         &:nth-child(1) { top: 0; }
+        //         &:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        //         &:nth-child(3) { bottom: 0; }
+        //     }
+
+        //     &.active {
+        //         span {
+        //             &:nth-child(1) { transform: rotate(45deg); top: 9px; }
+        //             &:nth-child(2) { opacity: 0; }
+        //             &:nth-child(3) { transform: rotate(-45deg); bottom: 9px; }
+        //         }
+        //     }
+        // }
+
+        .sns-links {
+            display: flex;
+            gap: 1rem;
+
+            a {
+                color: var(--white-opacity);
+                transition: color 0.3s;
+
+                &:hover {
+                    color: var(--white);
+                }
+            }
+        }
+    }
+
+    // 메인 헤더
+    .main-header {
+        background-color: var(--black);
+        padding: 1rem 0;
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            a {
+                color: var(--white);
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        }
+
+        .main-menu {
+            display: flex;
+            gap: 2rem;
+
+            .menu-item {
+                position: relative;
+
+                > a {
+                    color: var(--white);
+                    padding: 0.5rem 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    &:hover {
+                        color: var(--white-opacity);
+                    }
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                .submenu {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    background-color: var(--black);
+                    min-width: 200px;
+                    padding: 1rem 0;
+                    border: 1px solid var(--black100);
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(10px);
+                    transition: all 0.3s ease;
+
+                    a {
+                        display: block;
+                        padding: 0.5rem 1.5rem;
+                        color: var(--white);
+                        white-space: nowrap;
+
+                        &:hover {
+                            background-color: var(--black300);
+                        }
+                    }
+                }
+
+                &:hover .submenu {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+
+    // 모바일 메뉴
+    // .mobile-menu {
+    //     position: fixed;
+    //     top: 0;
+    //     left: 0;
+    //     width: 280px;
+    //     height: 100vh;
+    //     background-color: var(--white);
+    //     transform: translateX(-100%);
+    //     transition: transform 0.3s ease-in-out;
+    //     z-index: 1000;
+
+    //     &.active {
+    //         transform: translateX(0);
+    //     }
+
+    //     .menu-list {
+    //         padding: 2rem;
+
+    //         .menu-item {
+    //             > a {
+    //                 display: flex;
+    //                 align-items: center;
+    //                 justify-content: space-between;
+    //                 padding: 1rem 0;
+    //                 color: var(--black);
+    //                 font-size: 1.1rem;
+    //             }
+
+    //             .submenu {
+    //                 padding-left: 1.5rem;
+    //                 display: none;
+
+    //                 &.active {
+    //                     display: block;
+    //                 }
+
+    //                 a {
+    //                     padding: 0.5rem 0;
+    //                     color: var(--black300);
+    //                     display: block;
+
+    //                     &:hover {
+    //                         color: var(--black);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    // .menu-overlay {
+    //     position: fixed;
+    //     top: 0;
+    //     left: 0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-color: rgba(0, 0, 0, 0.5);
+    //     opacity: 0;
+    //     visibility: hidden;
+    //     transition: all 0.3s ease-in-out;
+
+    //     &.active {
+    //         opacity: 1;
+    //         visibility: visible;
+    //     }
+    // }
+} 

@@ -1,0 +1,63 @@
+@import '../@setting/setting';
+
+.footer {
+    background-color: var(--black);
+    color: var(--white);
+    padding: 2rem 0;
+
+    .footer__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+    }
+
+    .footer__left {
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--white-opacity);
+            margin-bottom: 1rem;
+
+            a {
+                color: var(--white);
+                text-decoration: underline;
+                
+                &:hover {
+                    color: var(--white-opacity);
+                }
+            }
+        }
+    }
+
+    .footer__right {
+        text-align: right;
+        
+        @media (max-width: 768px) {
+            text-align: center;
+        }
+    }
+
+    .footer__sns {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        a {
+            color: var(--white-opacity);
+            transition: color 0.3s;
+
+            &:hover {
+                color: var(--white);
+            }
+        }
+    }
+} 

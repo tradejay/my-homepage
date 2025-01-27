@@ -1,0 +1,456 @@
+@import "../@setting/setting";
+
+#wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#main {
+    flex-grow: 1;
+    padding-top: 150px;
+    background-color: var(--bg-light);
+    min-height: 800px;
+
+    .main__inner {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        // 상단 분할 영역
+        .top-area {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 40px;
+        }
+
+        // 전체 너비 그리드
+        .full-width-grid {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 200px;
+            padding: 40px;
+
+            // 그리드 13 (큰 사이즈)
+            &.large {
+                height: 1400px;
+                padding: 0;
+                display: grid;
+                grid-template-rows: 0.5fr 4fr 3fr;
+                gap: 20px;
+
+                .content-section {
+                    background-color: var(--bg-light);
+                    padding: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    &.top {
+                        border-radius: 20px 20px 0 0;
+                    }
+
+                    &.middle {
+                        .section-title {
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            color: var(--black);
+                            margin-bottom: 30px;
+                            text-align: center;
+                        }
+
+                        .calendar-grid {
+                            width: 100%;
+                            height: 100%;
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            grid-template-rows: repeat(3, 1fr);
+                            gap: 20px;
+
+                            .month-box {
+                                background-color: var(--white);
+                                border-radius: 10px;
+                                padding: 20px;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+
+                                .month-title {
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                    margin-bottom: 10px;
+                                    color: var(--black);
+                                }
+
+                                .month-content {
+                                    flex: 1;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 100%;
+                                    background-color: var(--bg-light);
+                                    border-radius: 8px;
+                                }
+                            }
+                        }
+                    }
+
+                    &.bottom {
+                        .section-title {
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            color: var(--black);
+                            margin-bottom: 30px;
+                            text-align: center;
+                        }
+
+                        .weekly-grid {
+                            width: 100%;
+                            height: calc(100% - 80px);
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            gap: 20px;
+
+                            .week-box {
+                                background-color: var(--white);
+                                border-radius: 10px;
+                                padding: 20px;
+                                display: flex;
+                                flex-direction: column;
+                                height: 100%;
+
+                                .week-title {
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                    color: var(--black);
+                                    margin-bottom: 15px;
+                                    padding-bottom: 10px;
+                                    border-bottom: 2px solid var(--bg-light);
+                                    text-align: center;
+                                }
+
+                                .week-content {
+                                    flex: 1;
+                                    background-color: var(--bg-light);
+                                    border-radius: 8px;
+                                    padding: 20px;
+                                    
+                                    h3 {
+                                        font-size: 1rem;
+                                        color: var(--black300);
+                                        margin-bottom: 15px;
+                                        text-align: center;
+                                    }
+
+                                    ul {
+                                        list-style: none;
+                                        padding: 0;
+
+                                        li {
+                                            padding: 8px 0;
+                                            color: var(--black200);
+                                            border-bottom: 1px solid var(--white);
+                                            text-align: center;
+
+                                            &:last-child {
+                                                border-bottom: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .content-box {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    }
+
+    // 메인 영역 (그리드 1, 7-11)
+    .main__contents {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 1300px;
+        position: relative;
+
+        // 그룹명
+        &::before {
+            content: 'MAIN GROUP (1, 7-11)';
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background-color: var(--black200);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: monospace;
+            z-index: 1;
+        }
+
+        // 그리드 1 (슬라이더)
+        .slider {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 200px;
+
+            .slider-container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                // overflow: hidden;
+                border-radius: 10px;
+            }
+
+            .slider-wrapper {
+                display: flex;
+                height: 100%;
+                transition: transform 0.5s ease-in-out;
+            }
+
+            .slide {
+                flex-shrink: 0;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: bold;
+                color: var(--white);
+
+                &:nth-child(1) { background-color: #4A90E2; }
+                &:nth-child(2) { background-color: #50E3C2; }
+                &:nth-child(3) { background-color: #F5A623; }
+                &:nth-child(4) { background-color: #D0021B; }
+                &:nth-child(5) { background-color: #9013FE; }
+            }
+
+            .slider-nav {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 10px;
+            }
+
+            .nav-dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.5);
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &.active {
+                    background-color: white;
+                }
+            }
+        }
+
+        // 그리드 7-11
+        .split-grid {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 200px;
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 1fr;
+            gap: 20px;
+            padding: 20px;
+
+            .left-section {
+                background-color: var(--bg-dark);
+                border-radius: 15px;
+                // overflow: hidden;
+                position: relative;
+
+                &::after {
+                    content: 'Sample Image';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: var(--white);
+                    font-size: 0.875rem;
+                }
+            }
+
+            .middle-section {
+                background-color: var(--bg-light);
+                border-radius: 15px;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                h3 {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                }
+
+                p {
+                    font-size: 0.9rem;
+                    line-height: 1.5;
+                }
+            }
+
+            .right-section {
+                background-color: var(--bg-light);
+                border-radius: 15px;
+                padding: 15px;
+
+                h3 {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                }
+
+                p {
+                    font-size: 0.9rem;
+                    line-height: 1.5;
+                }
+            }
+
+            .content-left {
+                .preview-box {
+                    position: relative;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+
+                    .image-box {
+                        flex: 1;
+                        background-color: var(--bg-dark);
+                        border-radius: 15px;
+                        margin-bottom: 20px;
+                        position: relative;
+
+                        &::after {
+                            content: 'Sample Image';
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            color: var(--white);
+                            font-size: 0.875rem;
+                        }
+                    }
+
+                    .preview-content {
+                        padding: 20px;
+                        background-color: var(--bg-light);
+                        border-radius: 15px;
+
+                        .category {
+                            display: inline-block;
+                            padding: 5px 10px;
+                            background-color: var(--black200);
+                            color: var(--white);
+                            border-radius: 5px;
+                            font-size: 0.875rem;
+                            margin-bottom: 10px;
+                        }
+
+                        h3 {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: 10px;
+                        }
+
+                        p {
+                            font-size: 0.95rem;
+                            line-height: 1.6;
+                            margin-bottom: 10px;
+                            color: var(--black200);
+                        }
+
+                        .date {
+                            font-size: 0.875rem;
+                            color: var(--black300);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 사이드 영역 (그리드 2-6)
+    .main__side {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 1300px;
+        position: relative;
+
+        // 그룹명
+        &::before {
+            content: 'SIDE GROUP (2-6)';
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background-color: var(--black200);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: monospace;
+            z-index: 1;
+        }
+
+        .side-box {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            padding: 30px;
+            height: 200px;
+
+            // 그리드 2
+            &:first-child {
+                height: 250px;
+            }
+        }
+    }
+
+    // 그리드 오버레이
+    .grid-overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: var(--black200);
+        color: var(--white);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.875rem;
+        font-family: monospace;
+        z-index: 1;
+    }
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}

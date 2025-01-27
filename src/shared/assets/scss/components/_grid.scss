@@ -1,0 +1,19 @@
+.grid-container {
+    @apply container mx-auto px-4;
+    
+    // 기본 그리드 레이아웃
+    &.grid-cols {
+        @apply grid;
+        
+        // 반응형 그리드
+        &-1 { @apply grid-cols-1; }
+        &-2 { @apply grid-cols-1 md:grid-cols-2; }
+        &-3 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3; }
+        &-4 { @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4; }
+        
+        // 그리드 갭
+        &.gap-sm { @apply gap-4; }
+        &.gap-md { @apply gap-6; }
+        &.gap-lg { @apply gap-8; }
+    }
+} 

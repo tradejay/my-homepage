@@ -1,0 +1,20 @@
+@import "fonts";
+@import "vars";
+@import "reset";
+@import "mixin"; 
+
+:root {
+    --black: #000;
+    --black400: #333;
+    --black300: #666;
+    --black200: #999;
+    --black100: #ccc;
+    
+    --white: #fff;
+    --white-opacity: rgba(255, 255, 255, 0.7);
+    
+    --bg-light: #f0f0f0;
+    --bg-dark: #000;
+    
+    --font-main: 'Montserrat', 'nanumSquareNeo', sans-serif;
+} 
