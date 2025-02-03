@@ -1,0 +1,237 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.editorContainer {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancelButton {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.cancelButton:hover {
+  background-color: #e5e7eb;
+}
+
+.submitButton {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+.submitButton:hover {
+  background-color: #1d4ed8;
+}
+
+.submitButton:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.closeButton:hover {
+  opacity: 0.7;
+}
+
+.error {
+  color: #dc2626;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #fee2e2;
+  border-radius: 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #6b7280;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #1f2937;
+}
+
+.imageUploadArea {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.imageUploadArea:hover {
+  border-color: #6366f1;
+  background-color: #f9fafb;
+}
+
+.imagePreview {
+  max-width: 100%;
+  max-height: 200px;
+  margin: 1rem auto;
+  display: block;
+  border-radius: 0.375rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.characterCount {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: right;
+  margin-top: -0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelButton {
+  background-color: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.cancelButton:hover {
+  background-color: #f3f4f6;
+}
+
+.submitButton {
+  background-color: #6366f1;
+  border: 1px solid transparent;
+  color: white;
+}
+
+.submitButton:hover {
+  background-color: #4f46e5;
+}
+
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

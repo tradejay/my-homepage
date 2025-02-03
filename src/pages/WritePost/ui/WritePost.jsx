@@ -1,112 +1,160 @@
-// File path: C:\Users\Jay\Desktop\Node\web-blog\src\pages\WritePost\ui\WritePost.jsx
-// File path: C:\Users\Jay\Desktop\Node\web-blog\src\pages\WritePost\ui\WritePost.jsx
-// File path: C:\Users\Jay\Desktop\Node\web-blog\src\pages\WritePost\ui\WritePost.jsx
-// File path: src/pages/WritePost/ui/WritePost.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { postsService } from '../../../shared/api/posts.service';
+import { supabase } from '../../../shared/config/supabase';
+import styles from './WritePost.module.css';
 
 function WritePost() {
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [category, setCategory] = useState('news'); // 기본 카테고리
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const editorRef = useRef(null);
+  const oEditors = useRef([]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '/smarteditor2/js/service/HuskyEZCreator.js';
+    script.async = true;
+    script.onload = () => {
+      window.nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors.current,
+        elPlaceHolder: 'smartEditor',
+        sSkinURI: '/smarteditor2/SmartEditor2Skin.html',
+        fCreator: 'createSEditor2',
+        htParams: {
+          bUseToolbar: true,
+          bUseVerticalResizer: true,
+          bUseModeChanger: true,
+          fOnBeforeUnload: function() {},
+          fOnAppLoad: function() {
+            oEditors.current.getById['smartEditor'].exec('SET_IR', ['']);
+          },
+          fOnBeforeImageUpload: async function(file) {
+            try {
+              const fileExt = file.name.split('.').pop();
+              const fileName = `${Math.random()}.${fileExt}`;
+              const filePath = `posts/${fileName}`;
 
-    // 이미지 미리보기 URL 생성
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
-    } else {
-      setImagePreview(null);
+              const { error: uploadError } = await supabase.storage
+                .from('images')
+                .upload(filePath, file);
+
+              if (uploadError) throw uploadError;
+
+              const { data: { publicUrl } } = supabase.storage
+                .from('images')
+                .getPublicUrl(filePath);
+
+              oEditors.current.getById['smartEditor'].exec('PASTE_HTML', [
+                `<img src="${publicUrl}" alt="업로드된 이미지" style="max-width: 100%; height: auto;" />`
+              ]);
+              return false;
+            } catch (error) {
+              console.error('이미지 업로드 중 오류:', error);
+              setError('이미지 업로드 중 오류가 발생했습니다.');
+              return false;
+            }
+          }
+        }
+      });
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    oEditors.current.getById['smartEditor'].exec('UPDATE_CONTENTS_FIELD', []);
+    const content = document.getElementById('smartEditor').value;
+
+    if (!title.trim() || !content.trim()) {
+      setError('제목과 내용을 모두 입력해주세요.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      await postsService.createPost({
+        title,
+        content,
+        category
+      });
+
+      // 폼 초기화
+      setTitle('');
+      setCategory('news');
+      oEditors.current.getById['smartEditor'].exec('SET_IR', ['']);
+      
+      // 성공 메시지
+      alert('글이 성공적으로 작성되었습니다.');
+      
+    } catch (error) {
+      console.error('글 작성 중 오류:', error);
+      setError('글 작성 중 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 실제로는 백엔드에 POST 요청해서 글 작성
-    console.log('제목:', title);
-    console.log('내용:', content);
-    console.log('이미지파일:', imageFile);
-
-    // 예시로 alert만 표시
-    alert('글 작성이 완료되었습니다!');
-    
-    // 폼 초기화
-    setTitle('');
-    setContent('');
-    setImageFile(null);
-    setImagePreview(null);
-  };
-
   return (
-    <div className="write-post-page" style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h2>새 글 작성</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="title" style={{ display: 'block', marginBottom: '0.5rem' }}>
-            제목
-          </label>
+    <div className={styles.writePostContainer}>
+      <h2 className={styles.title}>새 글 작성</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="category">카테고리</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className={styles.select}
+          >
+            <option value="news">뉴스</option>
+            <option value="tech">기술</option>
+            <option value="culture">문화</option>
+            <option value="life">라이프</option>
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="title">제목</label>
           <input
             id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            style={{ width: '100%', padding: '8px' }}
             placeholder="제목을 입력하세요"
+            className={styles.input}
             required
           />
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="content" style={{ display: 'block', marginBottom: '0.5rem' }}>
-            내용
-          </label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            style={{ width: '100%', padding: '8px', height: '150px' }}
-            placeholder="내용을 입력하세요"
-            required
-          />
+        <div className={styles.formGroup}>
+          <label htmlFor="content">내용</label>
+          <div className={styles.editorContainer}>
+            <textarea
+              id="smartEditor"
+              ref={editorRef}
+              style={{ width: '100%', height: '500px' }}
+            />
+          </div>
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="image" style={{ display: 'block', marginBottom: '0.5rem' }}>
-            이미지 업로드
-          </label>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          {imagePreview && (
-            <div style={{ marginTop: '10px' }}>
-              <img
-                src={imagePreview}
-                alt="미리보기"
-                style={{ maxWidth: '200px', maxHeight: '200px' }}
-              />
-            </div>
-          )}
-        </div>
+        {error && <div className={styles.error}>{error}</div>}
 
-        <button
-          type="submit"
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          작성하기
-        </button>
+        <div className={styles.buttonContainer}>
+          <button
+            type="submit"
+            disabled={loading}
+            className={styles.submitButton}
+          >
+            {loading ? '저장 중...' : '작성하기'}
+          </button>
+        </div>
       </form>
     </div>
   );

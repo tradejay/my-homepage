@@ -18,6 +18,11 @@ import CalendarManage from '../pages/CalendarManage/ui/CalendarManage';
 import ArticleDetail from '../pages/ArticleDetail/ui/ArticleDetail';
 import NotFound from '../pages/NotFound/ui/NotFound';
 
+// 관리자 페이지
+import AdminLogin from '../pages/Admin/ui/AdminLogin';
+import AdminLayout from '../pages/Admin/ui/AdminLayout';
+import AdminDashboard from '../pages/Admin/ui/AdminDashboard';
+
 function App() {
   return (
     <BrowserRouter>
@@ -34,6 +39,12 @@ function App() {
           {/* 달력 관련 라우트 */}
           <Route path="/calendar" element={<CalendarView />} />
           <Route path="/calendar/manage" element={<CalendarManage />} />
+
+          {/* 관리자 라우트 */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+          </Route>
 
           {/* 404 */}
           <Route path="*" element={<NotFound />} />

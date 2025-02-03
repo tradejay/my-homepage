@@ -1,10 +1,6 @@
-// File path: C:\Users\Jay\Desktop\Node\web-blog\src\pages\ArticleDetail\ui\ArticleDetail.jsx
-// File: src/pages/ArticleDetail/ui/ArticleDetail.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-// 추가) CSS 모듈 import (동일 폴더 내 ArticleDetail.module.css 파일)
+import { postsService } from '../../../shared/api/posts.service';
 import styles from './ArticleDetail.module.css';
 
 function ArticleDetail() {
@@ -16,11 +12,7 @@ function ArticleDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/posts/${id}`);
-        if (!res.ok) {
-          throw new Error('네트워크 응답 실패');
-        }
-        const data = await res.json();
+        const data = await postsService.getPostById(id);
         setArticle(data);
       } catch (err) {
         console.error('게시글 로드 실패:', err);
@@ -32,29 +24,69 @@ function ArticleDetail() {
   }, [id]);
 
   if (loading) {
-    return <div className={styles.container}>로딩 중...</div>;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/4 mb-8"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!article) {
     return (
-      <div className={styles.container}>
-        <p>해당 글이 없습니다.</p>
-        <button onClick={() => navigate('/')} className={styles.button}>
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          해당 글을 찾을 수 없습니다
+        </h2>
+        <button
+          onClick={() => navigate('/')}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+        >
           메인으로
         </button>
       </div>
     );
   }
 
-  // 원문 표시
   return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>{article.title}</h1>
-      <div className={styles.date}>{article.date}</div>
-      <p className={styles.content}>{article.content}</p>
-      <button onClick={() => navigate('/')} className={styles.button}>
-        메인으로
-      </button>
+    <main className="container mx-auto px-4 py-8">
+      <article className="max-w-4xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            {article.title}
+          </h1>
+          <div className="text-sm text-gray-500">
+            {new Date(article.created_at).toLocaleDateString('ko-KR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </div>
+        </header>
+
+        <div 
+          className={styles.articleContent}
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
+
+        <footer className="mt-8 pt-4 border-t border-gray-200">
+          <button
+            onClick={() => navigate('/')}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+          >
+            메인으로
+          </button>
+        </footer>
+      </article>
     </main>
   );
 }

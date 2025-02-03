@@ -1,116 +1,43 @@
-// File: src/widgets/Main/ui/Main.jsx
+// src/widgets/Main.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Finance from './FinanceInfo';
 import Calendar from './Calendar';
 import WritePostModal from './WritePostModal';
+import SlideUploadModal from './SlideUploadModal'; // 슬라이드 업로드 모달을 별도로 import
+import Slider from './Slider'; // Slider 컴포넌트 추가 import
 
-// 슬라이드 업로드 모달 (하단에 정의)
-function SlideUploadModal({ slides, onClose, onUpload }) {
-  // 로컬 상태: 선택 슬라이드 번호, 업로드할 파일
-  const [slideNo, setSlideNo] = useState('1');
-  const [file, setFile] = useState(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!file) {
-      alert('파일을 선택하세요.');
-      return;
-    }
-    // FileReader → base64 변환
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const base64 = ev.target.result;
-      // 부모에게 전달
-      onUpload(parseInt(slideNo, 10), base64);
-      onClose(); // 업로드 후 모달 닫기
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape') onClose();
-  };
-
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        zIndex: 9999,
-      }}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#fff',
-          padding: '20px',
-          borderRadius: '8px',
-          width: '400px',
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2>사진 업로드</h2>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <label>
-            슬라이드 번호:
-            <select
-              value={slideNo}
-              onChange={(e) => setSlideNo(e.target.value)}
-              style={{ marginLeft: '8px' }}
-            >
-              {slides.map((s) => (
-                <option key={s} value={s}>
-                  {s}번 슬라이드
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            이미지 선택:
-            <input
-              type="file"
-              accept="image/*"
-              style={{ marginLeft: '8px' }}
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </label>
-          <div style={{ textAlign: 'right', marginTop: '10px' }}>
-            <button type="button" onClick={onClose} style={{ marginRight: '10px' }}>
-              취소
-            </button>
-            <button type="submit">업로드</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// ----------------- Main 컴포넌트 -------------------
 const categories = ['pharma', 'medical', 'cosmetic', 'food', 'digital'];
 
 function Main() {
   const navigate = useNavigate();
 
-  // ★ 슬라이드 (1~5)
-  const [slides] = useState([1, 2, 3, 4, 5]);
-  // 각 슬라이드의 이미지 (base64) 저장
-  const [slideImages, setSlideImages] = useState(Array(5).fill(null));
+  // 슬라이드 (객체 배열로 변경)
+  const [slides, setSlides] = useState([
+    { title: '슬라이드 1', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+1" alt="슬라이드 1" />' },
+    { title: '슬라이드 2', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+2" alt="슬라이드 2" />' },
+    { title: '슬라이드 3', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+3" alt="슬라이드 3" />' },
+    { title: '슬라이드 4', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+4" alt="슬라이드 4" />' },
+    { title: '슬라이드 5', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+5" alt="슬라이드 5" />' },
+  ]);
 
-  // 슬라이더
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // ★ 무한 슬라이딩 처리를 위한 확장 슬라이드
+  // 맨 앞에 마지막 슬라이드 1개 붙이고, 맨 뒤에 첫 번째 슬라이드 1개 붙여서 총 길이가 +2
   const extendedSlides = [...slides.slice(-1), ...slides, ...slides.slice(0, 1)];
-  const totalSlides = slides.length;
+  const handleSlideInfoChange = (index, updatedSlide) => {
+    setSlides((prevSlides) => {
+      const newSlides = [...prevSlides];
+      newSlides[index] = updatedSlide;
+      return newSlides;
+    });
+  };
+
+  // ★ 현재 슬라이드 인덱스 (무한 슬라이더라면 보통 1로 시작)
+  //   extendedSlides[0]은 원본의 마지막 슬라이드이므로, 1로 시작해야 첫 번째 진짜 슬라이드가 처음에 보임.
+  const [currentSlide, setCurrentSlide] = useState(1);
+
+  // ★ 원본 슬라이드가 아니라, 확장된 슬라이드 길이에 따라 계산해야 함
+  const totalExtendedSlides = extendedSlides.length;
 
   // 재무 인덱스
   const [financeIndex, setFinanceIndex] = useState(0);
@@ -123,13 +50,13 @@ function Main() {
     }, {})
   );
 
-  const [showModal, setShowModal] = useState(false);
+  const [showPostModal, setShowPostModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // ★ 사진 업로드 모달 표시 여부
+  // 슬라이드 업로드 모달 표시 여부
   const [showSlideModal, setShowSlideModal] = useState(false);
 
-  // 처음에 서버에서 전체 글 목록
+  // 서버에서 전체 글 목록 가져오기
   useEffect(() => {
     fetch('http://localhost:4000/api/posts')
       .then((res) => res.json())
@@ -155,15 +82,23 @@ function Main() {
       .catch((err) => console.error('GET /api/posts 실패:', err));
   }, []);
 
-  // 슬라이더 자동
+  // ★ 슬라이더 자동 전환 (extendedSlides 기준)
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev >= totalSlides - 1 ? 0 : prev + 1));
+      setCurrentSlide((prev) => {
+        // 만약 마지막 확장 슬라이드(배열 끝)에 도달하면, 살짝 시간차(트랜지션 종료 후)에 인덱스를 1로 돌아가게 하는 방식도 있음
+        // 여기서는 단순히 마지막을 1로 돌리는 예시
+        if (prev >= totalExtendedSlides - 1) {
+          return 1; // 0은 원본 마지막 복제, 1이 실제 첫 슬라이드
+        }
+        return prev + 1;
+      });
     }, 3000);
-    return () => clearInterval(timer);
-  }, [totalSlides]);
 
-  // financeIndex 자동
+    return () => clearInterval(timer);
+  }, [totalExtendedSlides]);
+
+  // 재무 인덱스 자동 전환
   useEffect(() => {
     const timer = setInterval(() => {
       setFinanceIndex((prev) => (prev === 2 ? 0 : prev + 1));
@@ -171,20 +106,18 @@ function Main() {
     return () => clearInterval(timer);
   }, []);
 
-  // 글쓰기 모달 open
-  const handleOpenModal = (cat) => {
+  // 글쓰기 모달 열기
+  const handleOpenPostModal = (cat) => {
     setSelectedCategory(cat);
-    setShowModal(true);
+    setShowPostModal(true);
   };
-  const handleCloseModal = () => {
-    setShowModal(false);
+
+  const handleClosePostModal = () => {
+    setShowPostModal(false);
     setSelectedCategory(null);
   };
-  const handleAddPost = (cat, newPost) => {
-    newPost.id = Date.now();
-    newPost.category = cat;
-    newPost.date = new Date().toLocaleString();
 
+  const handleAddPost = (cat, newPost) => {
     fetch('http://localhost:4000/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -207,26 +140,20 @@ function Main() {
       .catch((err) => console.error('POST /api/posts 에러:', err));
   };
 
-  // ★ 슬라이드 업로드 모달 열기/닫기
+  // 슬라이드 업로드 모달 열기/닫기
   const openSlideModal = () => setShowSlideModal(true);
   const closeSlideModal = () => setShowSlideModal(false);
 
-  // ★ 업로드 처리 (부모 측에서 state 반영)
-  //    slideNo: 1~5, base64: 이미지 데이터
-  const handleSlideUpload = (slideNo, base64) => {
-    const index = slideNo - 1;
-    setSlideImages((prev) => {
-      const copy = [...prev];
-      copy[index] = base64;
-      return copy;
-    });
+  // 슬라이드 업로드 처리 (슬라이드 객체 추가)
+  const handleSlideUpload = (slide) => {
+    setSlides((prev) => [...prev, slide]);
   };
 
   return (
     <main id="main" role="main">
       <div className="container">
         <div className="main__inner">
-          {/* 슬라이더 & 글 목록 */}
+          {/* 슬라이더 및 글 목록 */}
           <div className="top-area">
             <div className="main__contents">
               {/* 슬라이더 */}
@@ -246,59 +173,13 @@ function Main() {
                   사진 업로드
                 </button>
               </div>
-              <div className="slider">
-              <div className="slider-container" style={{
-                    height: '400px',   // ← 수동 지정
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}>
-                  <div
-                    className="slider-wrapper"
-                    style={{
-                      
-                      transform: `translateX(-${
-                        ((currentSlide + 1) * 100) / extendedSlides.length
-                      }%)`,
-                      width: `${extendedSlides.length * 100}%`,
-                    }}
-                  >
-                    {extendedSlides.map((num, idx) => {
-                      const realIndex = num - 1; // 1->0, 2->1 ...
-                      const image = slideImages[realIndex];
-                      return (
-                        <div
-                          key={idx}
-                          className="slide"
-                          style={{
-                            width: `${100 / extendedSlides.length}%`,
-                            height: '400px',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          {image ? (
-                            <img
-                              src={image}
-                              alt={`slide-${num}`}
-                              style={{ width: '100%', height: 'auto' }}
-                            />
-                          ) : (
-                            `Box ${num}`
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="slider-nav">
-                    {slides.map((_, idx) => (
-                      <button
-                        key={idx}
-                        className={`nav-dot ${currentSlide === idx ? 'active' : ''}`}
-                        onClick={() => setCurrentSlide(idx)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <Slider
+                currentSlide={currentSlide}
+                slides={slides}
+                extendedSlides={extendedSlides}
+                onSetSlide={setCurrentSlide}
+                onSlideInfoChange={handleSlideInfoChange} 
+              />
 
               {/* 카테고리별 섹션 */}
               <div className="split-grid-container">
@@ -313,7 +194,6 @@ function Main() {
                       style={{
                         display: 'grid',
                         gridTemplateColumns: '3fr 1fr',
-                        
                         gap: '20px',
                         maxWidth: '100%',
                         overflow: 'hidden',
@@ -372,7 +252,7 @@ function Main() {
                                 borderRadius: '4px',
                                 cursor: 'pointer',
                               }}
-                              onClick={() => handleOpenModal(cat)}
+                              onClick={() => handleOpenPostModal(cat)}
                             >
                               글쓰기
                             </button>
@@ -431,7 +311,7 @@ function Main() {
           {/* Finance */}
           <Finance financeIndex={financeIndex} />
 
-          {/* 새로 추가: "캘린더 수정" 버튼 */}
+          {/* "캘린더 수정" 버튼 */}
           <div style={{ marginTop: '20px' }}>
             <button
               onClick={() => navigate('/calendar/manage')}
@@ -452,10 +332,10 @@ function Main() {
           <Calendar />
 
           {/* 글쓰기 모달 */}
-          {showModal && selectedCategory && (
+          {showPostModal && selectedCategory && (
             <WritePostModal
               categoryId={selectedCategory}
-              onClose={handleCloseModal}
+              onClose={handleClosePostModal}
               onSubmit={handleAddPost}
             />
           )}
@@ -463,7 +343,7 @@ function Main() {
           {/* 사진 업로드 모달 */}
           {showSlideModal && (
             <SlideUploadModal
-              slides={slides}
+              slides={slides}  
               onClose={closeSlideModal}
               onUpload={handleSlideUpload}
             />
