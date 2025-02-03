@@ -1,12 +1,30 @@
-/* 예: Header가 70px fixed 라고 가정 */
+@import '@/shared/assets/scss/_vars.scss';
+@import '@/shared/assets/scss/_mixin.scss';
+
 .layout {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  
+  @include mobile {
+    overflow-x: hidden;
+  }
+}
+
+.main {
+  padding-top: 70px;
+  max-width: $desktop;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  
+  @include tablet {
+    padding-left: 16px;
+    padding-right: 16px;
   }
   
-  .main {
-    /* 헤더에 가려지지 않도록 상단 패딩 */
-    padding-top: 70px;
+  @include mobile {
+    padding-left: 12px;
+    padding-right: 12px;
   }
-  
+}

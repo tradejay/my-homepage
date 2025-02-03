@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { postsService } from '../../../shared/api/posts.service';
 import { supabase } from '../../../shared/config/supabase';
-import styles from './WritePostModal.module.css';
+import styles from './WritePostModal.module.scss';
 
 function WritePostModal({ onClose, onSubmit, categoryId }) {
   const [title, setTitle] = useState('');

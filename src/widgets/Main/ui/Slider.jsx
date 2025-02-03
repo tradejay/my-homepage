@@ -2,7 +2,8 @@
 // File path: C:\Users\Jay\Desktop\Node\web-blog\src\widgets\Main\ui\Slider.jsx
 // File path: src/widgets/Main/ui/Slider.jsx
 import React from 'react';
-import styles from './Slider.module.css';
+import styles from './Slider.module.scss';
+
 function Slider({ currentSlide, slides, extendedSlides, onSetSlide }) {
   return (
     <div className={styles.slider}>

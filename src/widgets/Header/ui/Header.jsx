@@ -3,29 +3,32 @@
 // File path: C:\Users\Jay\Desktop\Node\web-blog\src\widgets\Header\ui\Header.jsx
 // File path: C:\Users\Jay\Desktop\Node\web-blog\src\widgets\Header\ui\Header.jsx
 // File path: C:\Users\Jay\Desktop\Node\web-blog\src\widgets\Header\ui\Header.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { menuItems, snsLinks } from '../../../shared/data/menuData';
+import styles from './Header.module.scss';
 
-const Header = ({ isMenuOpen, toggleMenu }) => {
+const Header = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
     return (
-        <header className="header">
-            {/* 상단 바 */}
-            <div className="top-bar">
-                <div className="container">
-                    {/* 햄버거 메뉴 */}
-                    {/* <button 
-                        className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+        <header className={styles.header}>
+            <div className={styles.topBar}>
+                <div className={styles.container}>
+                    <button 
+                        className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
                         onClick={toggleMenu}
                         aria-label="메뉴 열기"
                     >
                         <span></span>
                         <span></span>
                         <span></span>
-                    </button> */}
+                    </button>
 
-                    {/* SNS 링크 */}
-                    <div className="sns-links">
+                    <div className={styles.snsLinks}>
                         {snsLinks.map((link, index) => (
                             <a
                                 key={index}
@@ -40,24 +43,23 @@ const Header = ({ isMenuOpen, toggleMenu }) => {
                 </div>
             </div>
 
-            {/* 메인 헤더 */}
-            <div className="main-header">
-                <div className="container">
-                    <h1 className="logo">
+            <div className={styles.mainHeader}>
+                <div className={styles.container}>
+                    <h1 className={styles.logo}>
                         <Link to="/">
                             <span>Web Blog</span>
                         </Link>
                     </h1>
 
-                    <nav className="main-menu">
+                    <nav className={styles.mainMenu}>
                         {menuItems.map((item, index) => (
-                            <div key={index} className="menu-item">
+                            <div key={index} className={styles.menuItem}>
                                 <Link to={item.path}>
                                     {item.icon}
                                     <span>{item.text}</span>
                                 </Link>
                                 {item.submenu && (
-                                    <div className="submenu">
+                                    <div className={styles.submenu}>
                                         {item.submenu.map((subItem, subIndex) => (
                                             <Link 
                                                 key={subIndex} 
@@ -74,11 +76,10 @@ const Header = ({ isMenuOpen, toggleMenu }) => {
                 </div>
             </div>
 
-            {/* 모바일 메뉴 */}
-            {/* <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
-                <nav className="menu-list">
+            <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.active : ''}`}>
+                <nav className={styles.menuList}>
                     {menuItems.map((item, index) => (
-                        <div key={index} className="menu-item">
+                        <div key={index} className={styles.menuItem}>
                             <Link to={item.path} onClick={toggleMenu}>
                                 {item.icon}
                                 <span>{item.text}</span>
@@ -99,13 +100,12 @@ const Header = ({ isMenuOpen, toggleMenu }) => {
                         </div>
                     ))}
                 </nav>
-            </div> */}
+            </div>
 
-            {/* 모바일 메뉴 오버레이 */}
-            {/* <div 
-                className={`menu-overlay ${isMenuOpen ? 'active' : ''}`}
+            <div 
+                className={`${styles.menuOverlay} ${isMenuOpen ? styles.active : ''}`}
                 onClick={toggleMenu}
-            ></div> */}
+            ></div>
         </header>
     );
 };
