@@ -6,33 +6,33 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '../shared/assets/scss/style.scss';
 
 // widgets (Header, Footer, Main)
-import Header from '../widgets/Header/ui/Header';
-import Footer from '../widgets/Footer/ui/Footer';
-import Main from '../widgets/Main/ui/Main';
+import Header from '../widgets/Header/ui/Header.jsx';
+import Footer from '../widgets/Footer/ui/Footer.jsx';
+import Main from '../widgets/Main/ui/Main.jsx';
 
 // 달력 관련 페이지 (CalendarView, CalendarManage)
-import CalendarView from '../pages/CalendarView/ui/CalendarView';
-import CalendarManage from '../pages/CalendarManage/ui/CalendarManage';
+import CalendarView from '../pages/CalendarView/ui/CalendarView.jsx';
+import CalendarManage from '../pages/CalendarManage/ui/CalendarManage.jsx';
 
 // 기타 페이지
-import ArticleDetail from '../pages/ArticleDetail/ui/ArticleDetail';
-import NotFound from '../pages/NotFound/ui/NotFound';
+import ArticleDetail from '../pages/ArticleDetail/ui/ArticleDetail.jsx';
+import NotFound from '../pages/NotFound/ui/NotFound.jsx';
 
 // 관리자 페이지
-import AdminLogin from '../pages/Admin/ui/AdminLogin';
-import AdminLayout from '../pages/Admin/ui/AdminLayout';
-import AdminDashboard from '../pages/Admin/ui/AdminDashboard';
+import AdminLogin from '../pages/Admin/ui/AdminLogin.jsx';
+import AdminLayout from '../pages/Admin/ui/AdminLayout.jsx';
+import AdminDashboard from '../pages/Admin/ui/AdminDashboard.jsx';
 
 // 메뉴 페이지 컴포넌트 import
-import Report from '../pages/Report/ui/Report';
-import Economy from '../pages/Economy/ui/Economy';
-import Industry from '../pages/Industry/ui/Industry';
-import Company from '../pages/Company/ui/Company';
-import Policy from '../pages/Policy/ui/Policy';
-import Press from '../pages/Press/ui/Press';
-import People from '../pages/People/ui/People';
-import Media from '../pages/Media/ui/Media';
-import Schedule from '../pages/Schedule/ui/Schedule';
+import Report from '../pages/Report/ui/Report.jsx';
+import Economy from '../pages/Economy/ui/Economy.jsx';
+import Industry from '../pages/Industry/ui/Industry.jsx';
+import Company from '../pages/Company/ui/Company.jsx';
+import Policy from '../pages/Policy/ui/Policy.jsx';
+import Press from '../pages/Press/ui/Press.jsx';
+import People from '../pages/People/ui/People.jsx';
+import Media from '../pages/Media/ui/Media.jsx';
+import Schedule from '../pages/Schedule/ui/Schedule.jsx';
 
 
 function App() {

@@ -1,14 +1,19 @@
 // File: server.js
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const DATA_FILE = path.join(__dirname, 'postsData.json');
 
 // GET /api/posts -> 전체 글 배열

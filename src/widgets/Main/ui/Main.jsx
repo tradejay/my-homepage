@@ -6,6 +6,7 @@ import Calendar from './Calendar';
 import WritePostModal from './WritePostModal';
 import SlideUploadModal from './SlideUploadModal'; // 슬라이드 업로드 모달을 별도로 import
 import Slider from './Slider'; // Slider 컴포넌트 추가 import
+import { postsService } from '../../../shared/api/posts.service';
 
 const categories = ['pharma', 'medical', 'cosmetic', 'food', 'digital'];
 
@@ -56,15 +57,10 @@ function Main() {
   // 슬라이드 업로드 모달 표시 여부
   const [showSlideModal, setShowSlideModal] = useState(false);
 
-  // 서버에서 전체 글 목록 가져오기
+  // 서버에서 전체 글 목록 가져오기 (Supabase)
   useEffect(() => {
-    fetch('http://localhost:4000/api/posts')
-      .then((res) => res.json())
+    postsService.getAllPosts()
       .then((allPosts) => {
-        if (!Array.isArray(allPosts)) {
-          console.error('서버 응답이 배열이 아님:', allPosts);
-          return;
-        }
         const newPostsByCategory = categories.reduce((obj, c) => {
           obj[c] = [];
           return obj;
@@ -79,7 +75,7 @@ function Main() {
         });
         setPostsByCategory(newPostsByCategory);
       })
-      .catch((err) => console.error('GET /api/posts 실패:', err));
+      .catch((err) => console.error('Supabase GET /posts 실패:', err));
   }, []);
 
   // ★ 슬라이더 자동 전환 (extendedSlides 기준)
