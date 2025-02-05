@@ -1,0 +1,42 @@
+[
+  {
+    "name": "홈",
+    "path": "/"
+  },
+  {
+    "name": "리포트",
+    "path": "/report"
+  },
+  {
+    "name": "경제 동향",
+    "path": "/economy"
+  },
+  {
+    "name": "산업 동향",
+    "path": "/industry"
+  },
+  {
+    "name": "기업 동향",
+    "path": "/company"
+  },
+  {
+    "name": "정책 동향",
+    "path": "/policy"
+  },
+  {
+    "name": "언론 동향",
+    "path": "/press"
+  },
+  {
+    "name": "인물",
+    "path": "/people"
+  },
+  {
+    "name": "미디어 리뷰",
+    "path": "/media"
+  },
+  {
+    "name": "주요 일정",
+    "path": "/schedule"
+  }
+]

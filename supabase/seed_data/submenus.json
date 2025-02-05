@@ -1,0 +1,147 @@
+[
+  {
+    "menu_id": 4,
+    "name": "의료",
+    "path": "/industry/medical"
+  },
+  {
+    "menu_id": 4,
+    "name": "제약",
+    "path": "/industry/pharma"
+  },
+  {
+    "menu_id": 4,
+    "name": "의료기기",
+    "path": "/industry/devices"
+  },
+  {
+    "menu_id": 4,
+    "name": "화장품",
+    "path": "/industry/cosmetics"
+  },
+  {
+    "menu_id": 4,
+    "name": "건강기능식품",
+    "path": "/industry/health-food"
+  },
+  {
+    "menu_id": 4,
+    "name": "디지털헬스케어",
+    "path": "/industry/digital-health"
+  },
+  {
+    "menu_id": 5,
+    "name": "의료",
+    "path": "/company/medical"
+  },
+  {
+    "menu_id": 5,
+    "name": "제약",
+    "path": "/company/pharma"
+  },
+  {
+    "menu_id": 5,
+    "name": "의료기기",
+    "path": "/company/devices"
+  },
+  {
+    "menu_id": 5,
+    "name": "화장품",
+    "path": "/company/cosmetics"
+  },
+  {
+    "menu_id": 5,
+    "name": "건강기능식품",
+    "path": "/company/health-food"
+  },
+  {
+    "menu_id": 5,
+    "name": "디지털헬스케어",
+    "path": "/company/digital-health"
+  },
+  {
+    "menu_id": 6,
+    "name": "의료",
+    "path": "/policy/medical"
+  },
+  {
+    "menu_id": 6,
+    "name": "제약",
+    "path": "/policy/pharma"
+  },
+  {
+    "menu_id": 6,
+    "name": "의료기기",
+    "path": "/policy/devices"
+  },
+  {
+    "menu_id": 6,
+    "name": "화장품",
+    "path": "/policy/cosmetics"
+  },
+  {
+    "menu_id": 6,
+    "name": "건강기능식품",
+    "path": "/policy/health-food"
+  },
+  {
+    "menu_id": 6,
+    "name": "디지털헬스케어",
+    "path": "/policy/digital-health"
+  },
+  {
+    "menu_id": 7,
+    "name": "의료",
+    "path": "/press/medical"
+  },
+  {
+    "menu_id": 7,
+    "name": "제약",
+    "path": "/press/pharma"
+  },
+  {
+    "menu_id": 7,
+    "name": "의료기기",
+    "path": "/press/devices"
+  },
+  {
+    "menu_id": 7,
+    "name": "화장품",
+    "path": "/press/cosmetics"
+  },
+  {
+    "menu_id": 7,
+    "name": "건강기능식품",
+    "path": "/press/health-food"
+  },
+  {
+    "menu_id": 7,
+    "name": "디지털헬스케어",
+    "path": "/press/digital-health"
+  },
+  {
+    "menu_id": 9,
+    "name": "뉴스",
+    "path": "/media/news"
+  },
+  {
+    "menu_id": 9,
+    "name": "매거진",
+    "path": "/media/magazine"
+  },
+  {
+    "menu_id": 9,
+    "name": "도서",
+    "path": "/media/books"
+  },
+  {
+    "menu_id": 10,
+    "name": "연간",
+    "path": "/schedule/yearly"
+  },
+  {
+    "menu_id": 10,
+    "name": "월간",
+    "path": "/schedule/monthly"
+  }
+]

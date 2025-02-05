@@ -1,0 +1,8 @@
+#main .main__contents,
+#main .main__side,
+.split-grid,
+.side-box,
+.slider,
+.full-width-grid {
+  height: auto !important;
+}

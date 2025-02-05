@@ -10,12 +10,26 @@ import styles from './Header.module.scss';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+    const [showSubmenu, setShowSubmenu] = useState(false);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const handleMouseEnter = () => {
+        setShowSubmenu(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowSubmenu(false);
+    };
+
     return (
-        <header className={styles.header}>
+        <header 
+            className={styles.header}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             <div className={styles.topBar}>
                 <div className={styles.container}>
                     <button 
@@ -59,7 +73,7 @@ const Header = () => {
                                     <span>{item.text}</span>
                                 </Link>
                                 {item.submenu && (
-                                    <div className={styles.submenu}>
+                                    <div className={`${styles.submenu} ${showSubmenu ? styles.active : ''}`}>
                                         {item.submenu.map((subItem, subIndex) => (
                                             <Link 
                                                 key={subIndex} 

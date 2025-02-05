@@ -182,111 +182,79 @@ function Main() {
               />
 
               {/* 카테고리별 섹션 */}
-              <div className="split-grid-container">
-                {categories.map((cat) => {
-                  const posts = postsByCategory[cat] || [];
-                  const latestPost = posts[0];
+    <div className="split-grid-container container mx-auto grid gap-5 sm:gap-7 md:gap-10">
+      {categories.map((cat) => {
+        const posts = postsByCategory[cat] || [];
+        const latestPost = posts[0];
 
-                  return (
-                    <div
-                      key={cat}
-                      className="split-grid"
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: '3fr 1fr',
-                        gap: '20px',
-                        maxWidth: '100%',
-                        overflow: 'hidden',
-                        width: '100%',
-                        margin: '0 auto 20px',
-                        border: '1px solid #ddd',
-                        padding: '10px',
-                      }}
-                    >
-                      {/* 왼쪽 = 최신글 */}
-                      <div
-                        className="left-section"
-                        style={{
-                          width: '100%',
-                          overflow: 'hidden',
-                          position: 'relative',
-                        }}
-                      >
-                        <div style={{ marginBottom: '10px', fontWeight: 'bold' }}>
-                          카테고리: {cat}
-                        </div>
-                        {latestPost ? (
-                          <div style={{ backgroundColor: '#f9f9f9', padding: '10px' }}>
-                            <h4>{latestPost.title}</h4>
-                            <p style={{ color: '#999', fontSize: '0.9em' }}>
-                              {latestPost.date}
-                            </p>
-                            <p>{latestPost.content}</p>
-                          </div>
-                        ) : (
-                          <div style={{ fontStyle: 'italic', color: '#666' }}>
-                            아직 작성된 글이 없습니다.
-                          </div>
-                        )}
-                      </div>
-
-                      {/* 오른쪽 = 글 목록 */}
-                      <div
-                        className="right-section"
-                        style={{
-                          width: '100%',
-                          maxWidth: '250px',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        <div>
-                          <div style={{ marginBottom: '8px', fontWeight: 'bold' }}>
-                            글 목록
-                            <button
-                              style={{
-                                marginLeft: '10px',
-                                padding: '6px 12px',
-                                backgroundColor: '#007bff',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() => handleOpenPostModal(cat)}
-                            >
-                              글쓰기
-                            </button>
-                          </div>
-                          {posts.length === 0 ? (
-                            <div style={{ fontStyle: 'italic', color: '#666' }}>
-                              글이 없습니다.
-                            </div>
-                          ) : (
-                            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                              {posts.map((p) => (
-                                <li
-                                  key={p.id}
-                                  style={{
-                                    padding: '8px 0',
-                                    borderBottom: '1px solid #eee',
-                                  }}
-                                >
-                                  <div style={{ fontWeight: 'bold' }}>
-                                    <Link to={`/article/${p.id}`}>{p.title}</Link>
-                                  </div>
-                                  <div style={{ fontSize: '0.8em', color: '#999' }}>
-                                    {p.date}
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+        return (
+          <div
+            key={cat}
+            className="split-grid grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 max-w-full overflow-hidden border border-gray-300 p-3"
+          >
+            {/* 왼쪽 = 최신글 */}
+            <div
+              className="left-section md:w-full overflow-hidden relative"
+            >
+              <div className="mb-2 font-bold">
+                카테고리: {cat}
               </div>
+              {latestPost ? (
+                <div className="bg-gray-100 p-2">
+                  <h4 className="text-lg">{latestPost.title}</h4>
+                  <p className="text-gray-600 text-sm">
+                    {latestPost.date}
+                  </p>
+                  <p className="overflow-wrap break-word word-break-all">{latestPost.content}</p>
+                </div>
+              ) : (
+                <div className="italic text-gray-500">
+                  아직 작성된 글이 없습니다.
+                </div>
+              )}
+            </div>
+
+            {/* 오른쪽 = 글 목록 */}
+            <div
+              className="right-section md:w-1/3 overflow-hidden"
+            >
+              <div>
+                <div className="mb-2 font-bold">
+                  글 목록
+                  <button
+                    className="ml-2 px-3 py-1 bg-blue-500 text-white border-none rounded cursor-pointer"
+                    onClick={() => handleOpenPostModal(cat)}
+                  >
+                    글쓰기
+                  </button>
+                </div>
+                {posts.length === 0 ? (
+                  <div className="italic text-gray-500">
+                    글이 없습니다.
+                  </div>
+                ) : (
+                  <ul className="list-none p-0 m-0">
+                    {posts.map((p) => (
+                      <li
+                        key={p.id}
+                        className="py-2 border-b border-gray-200"
+                      >
+                        <div className="font-bold overflow-wrap break-word word-break-all">
+                          <Link to={`/article/${p.id}`}>{p.title}</Link>
+                        </div>
+                        <div className="text-sm text-gray-600 overflow-wrap break-word word-break-all">
+                          {p.date}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
             </div>
 
             {/* 우측 사이드 */}

@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "react": "^18.3.1",
     "react-big-calendar": "^1.17.1",
@@ -57,6 +58,8 @@
     "postcss": "^8.4.49",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.83.1",
+    "supabase": "^2.9.6",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "type": "module"
 }

@@ -93,7 +93,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-width: 200px;
   display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   
+  &.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
   a {
     display: block;
     padding: 8px 16px;
@@ -106,9 +115,7 @@
   }
 }
 
-.menuItem:hover .submenu {
-  display: block;
-}
+
 
 // 모바일 메뉴 스타일
 .hamburger {
@@ -181,9 +188,11 @@
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: 0.3s;
+  pointer-events: none; /* Prevent clicks when inactive */
   
   &.active {
     opacity: 1;
+    pointer-events: auto; /* Enable clicks when active */
   }
   
   @include tablet {

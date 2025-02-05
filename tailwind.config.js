@@ -15,6 +15,11 @@ module.exports = {
         'black500': '#555',
         'red': '#ff0000',
       },
+      screens: { // Add this screens config
+        'sm': '480px',   // Mobile breakpoint
+        'md': '768px',   // Tablet breakpoint
+        'lg': '1024px',  // Desktop breakpoint
+      },
       fontFamily: {
         'mont': ['Montserrat', 'sans-serif'],
         'nanum': ['nanumSquareNeo', 'sans-serif'],
@@ -75,4 +80,4 @@ module.exports = {
     },
   },
   plugins: [],
-} 
+}

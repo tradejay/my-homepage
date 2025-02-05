@@ -73,21 +73,26 @@
 
 .slideHtml {
   width: 100%;
-  overflow-x: hidden;
-  
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1rem auto;
-    border-radius: 4px;
-    
-    @include mobile {
-      margin: 0.75rem auto;
-      border-radius: 3px;
+      overflow-x: hidden;
+      
+      * { /* Add this rule to target all elements inside .slideHtml */
+        max-width: 100%;
+        height: auto;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+        border-radius: 4px;
+        
+        @include mobile {
+          margin: 0.75rem auto;
+          border-radius: 3px;
+        }
+      }
     }
-  }
-}
 
 .sliderNav {
   display: flex;

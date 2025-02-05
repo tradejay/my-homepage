@@ -23,6 +23,18 @@ import AdminLogin from '../pages/Admin/ui/AdminLogin';
 import AdminLayout from '../pages/Admin/ui/AdminLayout';
 import AdminDashboard from '../pages/Admin/ui/AdminDashboard';
 
+// 메뉴 페이지 컴포넌트 import
+import Report from '../pages/Report/ui/Report';
+import Economy from '../pages/Economy/ui/Economy';
+import Industry from '../pages/Industry/ui/Industry';
+import Company from '../pages/Company/ui/Company';
+import Policy from '../pages/Policy/ui/Policy';
+import Press from '../pages/Press/ui/Press';
+import People from '../pages/People/ui/People';
+import Media from '../pages/Media/ui/Media';
+import Schedule from '../pages/Schedule/ui/Schedule';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +44,18 @@ function App() {
         <Routes>
           {/* 메인 페이지 */}
           <Route path="/" element={<Main />} />
+
+          {/* 메뉴별 페이지 라우트 */}
+          <Route path="/report" element={<Report />} />
+          <Route path="/economy" element={<Economy />} />
+          <Route path="/industry" element={<Industry />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/policy" element={<Policy />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/media/:category" element={<Media />} />
+          <Route path="/schedule/:category" element={<Schedule />} />
+
 
           {/* 게시글 상세 */}
           <Route path="/article/:id" element={<ArticleDetail />} />
