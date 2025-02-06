@@ -1,74 +1,62 @@
-import { supabase } from '../config/supabase.js';
-
+// shared/api/posts.service.js
+import { supabase } from '../config/supabase.js';  // WARNING: Not recommended for production
 export const postsService = {
-  // 모든 게시글 가져오기
   async getAllPosts() {
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*, image_url')
+      .order('created_at', { ascending: false }); // Order by creation date, newest first
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching posts:', error);
+      throw error;
+    }
+
     return data;
   },
 
-  // 카테고리별 게시글 가져오기
+  async createPost(post) {
+    const { data, error } = await supabase
+      .from('posts')
+      .insert([post])
+      .select(); // Select to return the newly created post
+
+    if (error) {
+      console.error('Error creating post:', error);
+      throw error;
+    }
+
+    return data; // Returns the created post (array of one item)
+  },
+
   async getPostsByCategory(category) {
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
+      .select('*, image_url')
       .eq('category', category)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false }); // Order by creation date
 
-    if (error) throw error;
+    if (error) {
+      console.error(`Error fetching posts for category ${category}:`, error);
+      throw error;
+    }
+
     return data;
   },
 
-  // 단일 게시글 가져오기
   async getPostById(id) {
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
+      .select('*, image_url')
       .eq('id', id)
-      .single();
+      .single();  // Expecting a single result
 
-    if (error) throw error;
+    if (error) {
+      console.error(`Error fetching post with id ${id}:`, error);
+      throw error;
+    }
+
     return data;
-  },
-
-  // 게시글 생성
-  async createPost({ title, content, category }) {
-    const { data, error } = await supabase
-      .from('posts')
-      .insert([{ title, content, category }])
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  },
-
-  // 게시글 수정
-  async updatePost(id, { title, content, category }) {
-    const { data, error } = await supabase
-      .from('posts')
-      .update({ title, content, category })
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  },
-
-  // 게시글 삭제
-  async deletePost(id) {
-    const { error } = await supabase
-      .from('posts')
-      .delete()
-      .eq('id', id);
-
-    if (error) throw error;
-    return true;
   }
+
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { postsService } from '../../../shared/api/posts.service';
-import { supabase } from '../../../shared/config/supabase';
+import { supabase } from '../../../shared/config/supabase'; // Ensure this path is correct
 import styles from './WritePostModal.module.scss';
 
 function WritePostModal({ onClose, onSubmit, categoryId }) {
@@ -35,22 +35,29 @@ function WritePostModal({ onClose, onSubmit, categoryId }) {
               const fileName = `${Math.random()}.${fileExt}`;
               const filePath = `posts/${fileName}`;
 
-              const { error: uploadError } = await supabase.storage
+              const { data: uploadResult, error: uploadError } = await supabase.storage
                 .from('images')
-                .upload(filePath, file);
+                .upload(filePath, file, {
+                  cacheControl: '3600',
+                  upsert: false
+                });
 
-              if (uploadError) throw uploadError;
+              if (uploadError) {
+                console.error('Supabase image upload error:', uploadError); // Detailed logging
+                throw uploadError; // Re-throw to be caught by the outer catch
+              }
 
-              const { data: { publicUrl } } = supabase.storage
-                .from('images')
-                .getPublicUrl(filePath);
-
+              if (!uploadResult?.path) {
+                console.error('Supabase image upload failed: no path returned');
+                throw new Error('Image upload failed');
+              }
+              const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(uploadResult.path);
               oEditors.current.getById['smartEditor'].exec('PASTE_HTML', [
                 `<img src="${publicUrl}" alt="업로드된 이미지" style="max-width: 100%; height: auto;" />`
               ]);
               return false;
-            } catch (error) {
-              console.error('이미지 업로드 중 오류:', error);
+            } catch (uploadError) {
+              console.error('Image upload error:', uploadError);
               setError('이미지 업로드 중 오류가 발생했습니다.');
               return false;
             }
@@ -88,22 +95,21 @@ function WritePostModal({ onClose, onSubmit, categoryId }) {
     setError('');
 
     try {
-      const post = await postsService.createPost({
+      //  Make sure the service returns the created post object.
+      const createdPostArray = await postsService.createPost({
         title,
         content,
         category
       });
 
-      const newPost = {
-        id: post.id || Date.now(),
-        title: post.title,
-        content: post.content,
-        category: post.category,
-        date: new Date().toLocaleString()
-      };
+      if (!createdPostArray || createdPostArray.length === 0) {
+         throw new Error('Failed to create post: No data returned from postsService.createPost');
+      }
+
+      const createdPost = createdPostArray[0];
 
       if (onSubmit) {
-        onSubmit(category, newPost);
+        onSubmit(category, createdPost); // Pass the entire created post object
       }
 
       // 폼 초기화
@@ -114,8 +120,8 @@ function WritePostModal({ onClose, onSubmit, categoryId }) {
       // 성공 메시지
       alert('글이 성공적으로 작성되었습니다.');
       onClose();
-    } catch (error) {
-      console.error('글 작성 중 오류:', error);
+    } catch (apiError) {
+      console.error('Error creating post:', apiError);
       setError('글 작성 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);

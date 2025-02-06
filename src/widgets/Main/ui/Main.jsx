@@ -7,19 +7,20 @@ import WritePostModal from './WritePostModal';
 import SlideUploadModal from './SlideUploadModal'; // 슬라이드 업로드 모달을 별도로 import
 import Slider from './Slider'; // Slider 컴포넌트 추가 import
 import { postsService } from '../../../shared/api/posts.service';
+import quantumImage from '../../../shared/assets/img/ddd1706_Quantum_Computing-main-460x261.png';
 
-const categories = ['pharma', 'medical', 'cosmetic', 'food', 'digital'];
+const categories = ['리포트', '경제 동향', '산업 동향', '기업 동향', '정책 동향', '언론 동향', '인물', '미디어 리뷰'];
 
 function Main() {
   const navigate = useNavigate();
 
   // 슬라이드 (객체 배열로 변경)
   const [slides, setSlides] = useState([
-    { title: '슬라이드 1', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+1" alt="슬라이드 1" />' },
-    { title: '슬라이드 2', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+2" alt="슬라이드 2" />' },
-    { title: '슬라이드 3', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+3" alt="슬라이드 3" />' },
-    { title: '슬라이드 4', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+4" alt="슬라이드 4" />' },
-    { title: '슬라이드 5', html_content: '<img src="https://via.placeholder.com/400x200?text=Slide+5" alt="슬라이드 5" />' },
+    { title: '슬라이드 1', html_content: '<div class="bg-gray100 h-[200px] flex items-center justify-center text-gray500 text-xl">슬라이드 1</div>' },
+    { title: '슬라이드 2', html_content: '<div class="bg-gray200 h-[200px] flex items-center justify-center text-gray500 text-xl">슬라이드 2</div>' },
+    { title: '슬라이드 3', html_content: '<div class="bg-gray300 h-[200px] flex items-center justify-center text-gray500 text-xl">슬라이드 3</div>' },
+    { title: '슬라이드 4', html_content: '<div class="bg-gray400 h-[200px] flex items-center justify-center text-white text-xl">슬라이드 4</div>' },
+    { title: '슬라이드 5', html_content: '<div class="bg-gray500 h-[200px] flex items-center justify-center text-white text-xl">슬라이드 5</div>' },
   ]);
 
   // ★ 무한 슬라이딩 처리를 위한 확장 슬라이드
@@ -59,8 +60,9 @@ function Main() {
 
   // 서버에서 전체 글 목록 가져오기 (Supabase)
   useEffect(() => {
-    postsService.getAllPosts()
-      .then((allPosts) => {
+    const loadPosts = async () => {
+      try {
+        const allPosts = await postsService.getAllPosts();
         const newPostsByCategory = categories.reduce((obj, c) => {
           obj[c] = [];
           return obj;
@@ -74,16 +76,18 @@ function Main() {
           newPostsByCategory[cat].push(post);
         });
         setPostsByCategory(newPostsByCategory);
-      })
-      .catch((err) => console.error('Supabase GET /posts 실패:', err));
+      } catch (err) {
+        console.error('Supabase GET /posts 실패:', err);
+      }
+    };
+
+    loadPosts();
   }, []);
 
   // ★ 슬라이더 자동 전환 (extendedSlides 기준)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => {
-        // 만약 마지막 확장 슬라이드(배열 끝)에 도달하면, 살짝 시간차(트랜지션 종료 후)에 인덱스를 1로 돌아가게 하는 방식도 있음
-        // 여기서는 단순히 마지막을 1로 돌리는 예시
         if (prev >= totalExtendedSlides - 1) {
           return 1; // 0은 원본 마지막 복제, 1이 실제 첫 슬라이드
         }
@@ -114,26 +118,12 @@ function Main() {
   };
 
   const handleAddPost = (cat, newPost) => {
-    fetch('http://localhost:4000/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newPost),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.error('서버 에러:', data.error);
-          return;
-        }
-        console.log('서버 저장 성공:', data);
-
-        setPostsByCategory((prev) => {
-          const updated = [...prev[cat]];
-          updated.unshift(newPost);
-          return { ...prev, [cat]: updated };
-        });
-      })
-      .catch((err) => console.error('POST /api/posts 에러:', err));
+    // No longer using fetch directly.  'newPost' is already the created post from Supabase.
+    setPostsByCategory((prev) => {
+      const updated = [...prev[cat]];
+      updated.unshift(newPost);
+      return { ...prev, [cat]: updated };
+    });
   };
 
   // 슬라이드 업로드 모달 열기/닫기
@@ -146,24 +136,21 @@ function Main() {
   };
 
   return (
-    <main id="main" role="main">
-      <div className="container">
-        <div className="main__inner">
+    // 메인 배경에 텍스처를 추가합니다.
+
+    //  실제 텍스처 이미지 경로는 필요에 따라 수정하세요.)
+<div className="relative">
+  <div className="absolute top-0 left-0 w-full h-full bg-[url('../../../shared/assets/img/texture.png')] bg-cover filter blur-sm"></div>
+    <main id="main" role="main" className="min-h-screen font-nanum relative z-10">
+      <div className="container mx-auto">
+        <div className="py-8">
           {/* 슬라이더 및 글 목록 */}
-          <div className="top-area">
-            <div className="main__contents">
+          <div className="grid grid-cols-1 lg:grid-cols-main gap-grid">
+            <div className="space-y-8 animate-fadeInUp">
               {/* 슬라이더 */}
-              <div style={{ marginBottom: '10px', textAlign: 'right' }}>
-                {/* 사진 업로드 버튼 */}
+              <div className="flex justify-end mb-4">
                 <button
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: '#28a745',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                  }}
+                  className="px-4 py-2 bg-gray400 text-white rounded-md hover:bg-gray500 transition-all duration-300 font-gmarket"
                   onClick={openSlideModal}
                 >
                   사진 업로드
@@ -174,100 +161,132 @@ function Main() {
                 slides={slides}
                 extendedSlides={extendedSlides}
                 onSetSlide={setCurrentSlide}
-                onSlideInfoChange={handleSlideInfoChange} 
+                onSlideInfoChange={handleSlideInfoChange}
               />
 
               {/* 카테고리별 섹션 */}
-    <div className="split-grid-container container mx-auto grid gap-5 sm:gap-7 md:gap-10">
-      {categories.map((cat) => {
-        const posts = postsByCategory[cat] || [];
-        const latestPost = posts[0];
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-8 p-4">
+                {categories.map((cat) => {
+                  const posts = postsByCategory[cat] || [];
+                  const latestPost = posts[0];
 
-        return (
-          <div
-            key={cat}
-            className="split-grid grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 max-w-full overflow-hidden border border-gray-300 p-3"
-          >
-            {/* 왼쪽 = 최신글 */}
-            <div
-              className="left-section md:w-full overflow-hidden relative"
-            >
-              <div className="mb-2 font-bold">
-                카테고리: {cat}
-              </div>
-              {latestPost ? (
-                <div className="bg-gray-100 p-2">
-                  <h4 className="text-lg">{latestPost.title}</h4>
-                  <p className="text-gray-600 text-sm">
-                    {latestPost.date}
-                  </p>
-                  <p className="overflow-wrap break-word word-break-all">{latestPost.content}</p>
-                </div>
-              ) : (
-                <div className="italic text-gray-500">
-                  아직 작성된 글이 없습니다.
-                </div>
-              )}
-            </div>
+                  return (
+                    <div
+                      key={cat}
+                      className="bg-gray100 rounded-lg shadow-lg overflow-hidden p-4 hover:shadow-xl transition-all duration-300"
+                    >
+                      {/* Category Title */}
+                      <div className="widget-line-title bg-none">
+                        <h3 className="font-mont text-xl text-gray500">
+                          <Link to={`/category/${cat}`} className="bg-gradient-to-r from-gray-400 to-gray-400 bg-[100%_1px] bg-bottom bg-repeat-x pb-1">
+                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                          </Link>
+                        </h3>
+                      </div>
+                      {/* 왼쪽 = 최신글 */}
+                      {cat === '리포트' ? (
+                        <div className="overflow-hidden relative p-4 bg-white rounded-lg shadow-md mt-4">
+                          <a className="standard-format-icon" title="양자 컴퓨팅으로 신약 후보 물질 발굴에 성공">
+                            <img
+                              src={quantumImage}
+                              alt="양자 컴퓨팅으로 신약 후보 물질 발굴에 성공"
+                              width="460"
+                              height="261"
+                              className="fadeover wp-post-image lazyloaded"
+                            />
+                          </a>
+                          <div className="bg-gray200 p-4 rounded-md">
+                            <h4 className="text-xl font-mont mb-2 text-gray500 font-mont">
+                              <a >
+                                양자 컴퓨팅으로 신약 후보 물질 발굴에 성공
+                              </a>
+                            </h4>
+                            <p className="text-gray400 text-sm mb-2 font-nanum">
+                              2025년 2월 2일
+                            </p>
+                            <p className="text-gray400 line-clamp-3 font-nanum">
+                              최근 Nature Biotechnology에는 양자 컴퓨팅을 활용해서 신약 후보 물질을 발굴하는 데 성공했다는 논문이 실렸습니다. 특히, 이 연구에서는 소위 'undruggable', 즉 약을 만들기 불가능하다고 알려져 있는 극히 어려운 암 관련 타겟인 KRAS를 저해하는 후보 물질 2개를 발굴했습니다.
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="overflow-hidden relative p-4 bg-white rounded-lg shadow-md mt-4">
+                          {latestPost ? (
+                            <div className="bg-gray300 p-4 rounded-md">
+                              <h4 className="text-xl font-mont mb-2 text-gray500 font-mont">{latestPost.title}</h4>
+                              <p className="text-gray400 text-sm mb-2 font-nanum">
+                                {latestPost.date}
+                              </p>
+                              <div className="text-gray400 line-clamp-3 font-nanum" dangerouslySetInnerHTML={{ __html: latestPost.content }} />
+                              {latestPost.image_url && (
+                                <img src={latestPost.image_url} alt={latestPost.title} style={{maxWidth: '100%', height: 'auto'}} />
+                              )}
+                            </div>
+                          ) : (
+                            <div className="italic text-gray-500 font-nanum">
+                              아직 작성된 글이 없습니다.
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-            {/* 오른쪽 = 글 목록 */}
-            <div
-              className="right-section md:w-1/3 overflow-hidden"
-            >
-              <div>
-                <div className="mb-2 font-bold">
-                  글 목록
-                  <button
-                    className="ml-2 px-3 py-1 bg-blue-500 text-white border-none rounded cursor-pointer"
-                    onClick={() => handleOpenPostModal(cat)}
-                  >
-                    글쓰기
-                  </button>
-                </div>
-                {posts.length === 0 ? (
-                  <div className="italic text-gray-500">
-                    글이 없습니다.
-                  </div>
-                ) : (
-                  <ul className="list-none p-0 m-0">
-                    {posts.map((p) => (
-                      <li
-                        key={p.id}
-                        className="py-2 border-b border-gray-200"
-                      >
-                        <div className="font-bold overflow-wrap break-word word-break-all">
-                          <Link to={`/article/${p.id}`}>{p.title}</Link>
+                      {/* 오른쪽 = 글 목록 */}
+                      <div className="mt-4 overflow-hidden">
+                        <div>
+                          <div className="mb-2 font-bold">
+                            글 목록
+                            <button
+                              className="ml-2 px-3 py-1 bg-gray400 text-white rounded-md hover:bg-gray500 transition-all duration-300 font-gmarket"
+                              onClick={() => handleOpenPostModal(cat)}
+                            >
+                              글쓰기
+                            </button>
+                          </div>
+                          {posts.length === 0 ? (
+                            <div className="italic text-gray-500">
+                              글이 없습니다.
+                            </div>
+                          ) : (
+                            <ul className="list-none p-0 m-0">
+                              {posts.map((p) => (
+                                <li
+                                  key={p.id}
+                                  className="py-2 border-b border-gray-200"
+                                >
+                                  <div className="font-bold break-words">
+                                    <Link to={`/article/${p.id}`}>{p.title}</Link>
+                                  </div>
+                                  <div className="text-sm text-gray-600 break-words">
+                                    {p.date}
+                                  </div>
+                                  {p.image_url && (
+                                    <img src={p.image_url} alt={p.title} style={{maxWidth: '100%', height: 'auto'}} />
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
-                        <div className="text-sm text-gray-600 overflow-wrap break-word word-break-all">
-                          {p.date}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
             </div>
 
             {/* 우측 사이드 */}
-            <div className="main__side">
-              <div className="side-box search">
-                <div className="search-box">
-                  <form onSubmit={(e) => e.preventDefault()}>
-                    <input
-                      type="text"
-                      placeholder="관련 키워드를 입력하세요."
-                      className="search-input"
-                    />
-                    <button type="submit" className="search-button">
-                      검색
-                    </button>
-                  </form>
-                </div>
+            <div className="lg:col-span-1 space-y-6">
+              <div className="bg-gray100 rounded-lg shadow-md p-4">
+                <form onSubmit={(e) => e.preventDefault()} className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="관련 키워드를 입력하세요."
+                    className="flex-1 px-4 py-2 border border-gray300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray400 font-nanum"
+                  />
+                  <button type="submit" className="px-6 py-2 bg-gray400 text-white rounded-md hover:bg-gray500 transition-all duration-300 font-gmarket">
+                    검색
+                  </button>
+                </form>
               </div>
             </div>
           </div>
@@ -276,17 +295,10 @@ function Main() {
           <Finance financeIndex={financeIndex} />
 
           {/* "캘린더 수정" 버튼 */}
-          <div style={{ marginTop: '20px' }}>
+          <div className="mt-8 flex justify-end">
             <button
               onClick={() => navigate('/calendar/manage')}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#007bff',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
+              className="px-6 py-3 bg-gray400 text-white rounded-md hover:bg-gray500 transition-all duration-300 font-gmarket shadow-md hover:shadow-lg"
             >
               캘린더 수정
             </button>
@@ -307,7 +319,7 @@ function Main() {
           {/* 사진 업로드 모달 */}
           {showSlideModal && (
             <SlideUploadModal
-              slides={slides}  
+              slides={slides}
               onClose={closeSlideModal}
               onUpload={handleSlideUpload}
             />
@@ -315,6 +327,7 @@ function Main() {
         </div>
       </div>
     </main>
+</div>
   );
 }
 

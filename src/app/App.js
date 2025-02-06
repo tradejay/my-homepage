@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import TestSupabaseConnection from '../utils/components/TestSupabaseConnection.tsx';
+
 // 전역 SCSS
 import '../shared/assets/scss/style.scss';
 
@@ -41,6 +43,7 @@ function App() {
       <div id="wrap">
         <Header />
         <div className="content"> 
+        <TestSupabaseConnection />
         <Routes>
           {/* 메인 페이지 */}
           <Route path="/" element={<Main />} />

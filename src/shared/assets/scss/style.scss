@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import '@setting/setting';
 @import 'section/layout';
 @import 'section/header';

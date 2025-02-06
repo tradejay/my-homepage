@@ -1,3 +1,5 @@
+-- 20250205_create_posts_table.sql
+
 -- Create posts table
 CREATE TABLE IF NOT EXISTS public.posts (
     id SERIAL PRIMARY KEY,
