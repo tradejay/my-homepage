@@ -1,25 +1,54 @@
+const { theme } = require('./src/styles/theme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     container: {
       center: true,
-      padding: '1rem',
+      padding: {
+        DEFAULT: '1rem',
+        mobile: '1rem',
+        tablet: '2rem',
+        desktop: '4rem',
+      },
+      screens: {
+        mobile: '360px',
+        tablet: '768px',
+        desktop: '1280px',
+      },
     },
     extend: {
-      colors: {
-        'gray': '#808080',
-        'white': '#ffffff', 
-        'gray100': '#f0f0f0',
-        'gray200': '#d3d3d3',
-        'gray300': '#a9a9a9',
-        'gray400': '#696969',
-        'gray500': '#555555',
-        'red': '#ff0000',
+      colors: theme.colors,
+      spacing: theme.spacing,
+      screens: theme.breakpoints,
+      fontFamily: {
+        nanum: ['NanumSquareNeo', 'sans-serif'],
+        gmarket: ['GmarketSans', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
+      },
+      gridTemplateColumns: {
+        'main': 'minmax(0, 1fr) 300px',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
+  ],
 }

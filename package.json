@@ -7,15 +7,20 @@
     "@ckeditor/ckeditor5-build-classic": "^44.1.0",
     "@ckeditor/ckeditor5-font": "^44.1.0",
     "@ckeditor/ckeditor5-react": "^9.4.0",
+    "@radix-ui/react-scroll-area": "^1.2.3",
+    "@radix-ui/react-slot": "^1.1.2",
     "@supabase/supabase-js": "latest",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "react": "^18.3.1",
+    "react-aria": "^3.37.0",
     "react-big-calendar": "^1.17.1",
     "react-datepicker": "^7.6.0",
     "react-datetime": "^3.3.1",
@@ -24,8 +29,10 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.28.2",
     "react-scripts": "5.0.1",
+    "react-stately": "^3.35.0",
     "showdown": "^2.1.0",
     "smarteditor2": "^2.10.0",
+    "tailwind-merge": "^3.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -54,11 +61,14 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.26.5",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.1",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.83.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.1"
   },
   "type": "module"
 }
