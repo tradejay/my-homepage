@@ -2,154 +2,75 @@
 @import '../../../shared/assets/scss/_mixin.scss';
 
 .modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  @apply fixed inset-0 z-50 bg-gray-500/80 backdrop-blur-sm;
 }
 
 .modalContent {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-  
-  @include tablet {
-    padding: 1.5rem;
-    width: 95%;
-  }
-  
-  @include mobile {
-    padding: 1rem;
-    width: 100%;
-    margin: 0 1rem;
-    border-radius: 6px;
-  }
+  @apply fixed left-[50%] top-[50%] z-50 grid w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-gray-100 p-6 shadow-lg duration-200 sm:rounded-lg;
 }
 
-.closeButton {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: $font-size-xl;
-  color: $gray;
-  cursor: pointer;
-  padding: 0.5rem;
-  
-  &:hover {
-    color: $black;
-  }
-  
-  @include mobile {
-    top: 0.5rem;
-    right: 0.5rem;
-    font-size: $font-size-lg;
-  }
+.header {
+  @apply flex flex-col space-y-1.5 text-center sm:text-left;
+}
+
+.title {
+  @apply text-lg font-semibold leading-none tracking-tight;
+}
+
+.description {
+  @apply text-sm text-gray-500;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  
-  @include mobile {
-    gap: 1rem;
-  }
+  @apply grid gap-4 py-4;
 }
 
 .formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  @apply grid gap-2;
 }
 
 .label {
-  font-weight: $weight-medium;
-  color: $black;
-  
-  @include mobile {
-    font-size: $font-size-sm;
-  }
+  @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
 }
 
 .input {
-  padding: 0.75rem;
-  border: 1px solid $gray;
-  border-radius: 4px;
-  font-size: $font-size-base;
-  
-  &:focus {
-    outline: none;
-    border-color: $black;
-  }
-  
-  @include mobile {
-    padding: 0.5rem;
-    font-size: $font-size-sm;
-  }
+  @apply flex h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm ring-offset-gray-500 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
-.textarea {
-  @extend .input;
-  min-height: 150px;
-  resize: vertical;
-  
-  @include mobile {
-    min-height: 100px;
-  }
+.footer {
+  @apply flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2;
 }
 
-.buttonGroup {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-  
-  @include mobile {
-    gap: 0.5rem;
-  }
+.select {
+  /* @apply select; */
+  /*  */
+}
+
+.editorContainer {
+  @apply border border-gray-200 rounded-md overflow-hidden;
+}
+
+.error {
+  @apply text-red-500 text-sm mt-2;
+}
+
+.buttonContainer {
+  @apply flex justify-end gap-3 pt-6 border-t border-gray-200 mt-6;
 }
 
 .button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-weight: $weight-medium;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  
-  @include mobile {
-    padding: 0.5rem 1rem;
-    font-size: $font-size-sm;
-  }
-  
-  &.primary {
-    background-color: $black;
-    color: $white;
-    
-    &:hover {
-      background-color: lighten($black, 20%);
-    }
-  }
-  
-  &.secondary {
-    background-color: $gray;
-    color: $white;
-    
-    &:hover {
-      background-color: darken($gray, 10%);
-    }
-  }
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors px-4 py-2;
+}
+
+.submitButton {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 px-4 py-2;
+}
+
+.cancelButton {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-gray-100 text-gray-900 hover:bg-gray-200 active:bg-gray-300;
+}
+
+.closeButton {
+  @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700 
+  transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 rounded-md p-2;
 }

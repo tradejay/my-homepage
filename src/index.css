@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 222.1 83.8% 11.2%;
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
  
     --secondary: 210 40% 96.1%;
@@ -46,7 +46,7 @@
     --popover-foreground: 210 40% 98%;
  
     --primary: 210 40% 98%;
-    --primary-foreground: 222.1 83.8% 11.2%;
+    --primary-foreground: 222.2 47.4% 11.2%;
  
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -62,12 +62,19 @@
  
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.9 85.9% 23.8%;
- 
-    --radius: 0.5rem;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
- 
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 @layer components {
   .scrollbar-hide {
     scrollbar-width: none;
@@ -76,6 +83,37 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors 
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 
+    disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 
+    active:bg-primary-800;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-900 hover:bg-gray-200 
+    active:bg-gray-300;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm 
+    placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-400
+    disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .select {
+    @apply flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm 
+    focus:outline-none focus:ring-2 focus:ring-primary-400;
+  }
+
+  .card {
+    @apply rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm;
   }
 }
  
@@ -89,4 +127,9 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
+
+  .text-balance {
+    text-wrap: balance;
+  }
 }
+
